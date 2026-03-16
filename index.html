@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>beSS - Конструктор Глушителей</title>
-    <script src="https://unpkg.com"></script>
+    <title>be Solve System - Конструктор</title>
     <style>
         :root {
-            --primary: #ff4d4d;
-            --bg: #121212;
-            --card: #1e1e1e;
+            --primary: #ff00ff;
+            --bg: #0a0a0a;
+            --card: #000000;
+            --text: #ffffff;
+            --muted: #aaaaaa;
+            --wa: #25D366;
+            --tg: #0088cc;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
-            color: white;
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text);
             margin: 0;
             padding: 20px;
             display: flex;
@@ -25,203 +30,250 @@
         .builder-card {
             background: var(--card);
             padding: 25px;
-            border-radius: 20px;
+            border-radius: 12px;
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 1px solid #333;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+            border: 2px solid var(--primary);
         }
 
         h2 {
             text-align: center;
-            color: var(--primary);
-            letter-spacing: 2px;
-            margin-bottom: 30px;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 1px;
+            font-weight: 900;
         }
 
-        /* Визуализация */
+        .sub-title {
+            text-align: center;
+            color: var(--primary);
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
         .preview-box {
             height: 120px;
-            background: #000;
-            border-radius: 12px;
-            margin-bottom: 25px;
+            background: #050505;
+            border-radius: 8px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            border: 1px inset #222;
+            border: 1px solid #222;
         }
 
         .muffler-body {
-            background: linear-gradient(180deg, #999 0%, #444 50%, #222 100%);
-            border: 1px solid #666;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: linear-gradient(180deg, #444 0%, #111 50%, #000 100%);
+            border: 1px solid var(--primary);
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
         }
 
         .pipe {
             position: absolute;
-            width: 30px;
-            height: 15px;
-            background: #555;
+            width: 35px;
+            height: 16px;
+            background: #333;
             top: 50%;
             transform: translateY(-50%);
             border: 1px solid #444;
         }
 
         .pipe-in {
-            left: -30px;
+            left: 0px;
         }
 
         .pipe-out {
-            right: -30px;
+            right: 0px;
         }
 
-        /* Элементы управления */
         .label-text {
             display: block;
-            margin: 15px 0 8px;
-            font-size: 14px;
-            color: #bbb;
+            margin: 12px 0 5px;
+            font-size: 10px;
+            color: var(--muted);
             text-transform: uppercase;
+            font-weight: bold;
         }
 
-        select, input[type="range"] {
+        input, input[type="tel"], select {
             width: 100%;
-            padding: 12px;
-            background: #222;
+            background: #111;
             color: white;
-            border: 1px solid #444;
-            border-radius: 8px;
-            font-size: 16px;
+            border: 1px solid #333;
+            padding: 12px;
+            border-radius: 6px;
             box-sizing: border-box;
-        }
-
-        input[type="range"] {
-            height: 8px;
-            appearance: none;
-            background: #333;
             outline: none;
-            margin-top: 10px;
+            margin-bottom: 5px;
         }
 
-            input[type="range"]::-webkit-slider-thumb {
+            input[type="range"] {
+                width: 100%;
+                height: 6px;
                 appearance: none;
-                width: 20px;
-                height: 20px;
-                background: var(--primary);
-                border-radius: 50%;
-                cursor: pointer;
+                background: #222;
+                margin: 15px 0;
             }
+
+                input[type="range"]::-webkit-slider-thumb {
+                    appearance: none;
+                    width: 20px;
+                    height: 20px;
+                    background: var(--primary);
+                    border-radius: 50%;
+                    cursor: pointer;
+                    border: 2px solid #000;
+                }
 
         .price-tag {
             text-align: center;
-            margin: 30px 0;
+            margin: 20px 0;
             padding: 15px;
-            background: rgba(255,77,77,0.1);
-            border-radius: 10px;
+            background: rgba(255, 0, 255, 0.05);
             border: 1px dashed var(--primary);
         }
 
         .price-value {
-            font-size: 32px;
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 900;
             color: var(--primary);
         }
 
-        .order-btn {
-            width: 100%;
-            padding: 18px;
-            background: var(--primary);
-            border: none;
-            color: white;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.2s;
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
-            .order-btn:hover {
-                background: #e60000;
-                transform: translateY(-2px);
-            }
+        .btn {
+            padding: 15px 5px;
+            border: none;
+            color: white;
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-wa {
+            background: var(--wa);
+        }
+
+        .btn-tg {
+            background: var(--tg);
+        }
+
+        .btn:hover {
+            filter: brightness(1.2);
+        }
     </style>
 </head>
 <body>
 
-    <div id="app" class="builder-card">
-        <h2>beSS EXHAUST</h2>
+    <div class="builder-card">
+        <h2>be Solve System</h2>
+        <div class="sub-title">Exhaust Constructor</div>
 
-        <!-- Визуал -->
         <div class="preview-box">
             <div class="pipe pipe-in"></div>
-            <div class="muffler-body" :style="visualStyle"></div>
+            <div id="visualBody" class="muffler-body"></div>
             <div class="pipe pipe-out"></div>
         </div>
 
-        <!-- Выбор типа -->
+        <span class="label-text">Ваше Имя</span>
+        <input type="text" id="userName" placeholder="Имя" oninput="update()">
+
+        <span class="label-text">Ваш Телефон</span>
+        <input type="tel" id="userPhone" placeholder="+7..." oninput="update()">
+
         <span class="label-text">Тип изделия</span>
-        <select v-model="typeId" @change="resetLength">
-            <option v-for="(item, key) in products" :key="key" :value="key">{{ item.name }}</option>
-        </select>
+        <select id="productSelect" onchange="resetAndStore()"></select>
 
-        <!-- Длина -->
-        <span class="label-text">Длина корпуса: {{ currentLength }} мм</span>
-        <input type="range"
-               :min="selectedProduct.minL"
-               :max="selectedProduct.maxL"
-               step="50"
-               v-model.number="currentLength">
+        <span class="label-text" id="lengthLabel">Длина: 250 мм</span>
+        <input type="range" id="lengthSlider" step="50" oninput="update()">
 
-        <!-- Цена -->
         <div class="price-tag">
-            <div style="font-size: 12px; color: #888;">ИТОГОВАЯ СТОИМОСТЬ</div>
-            <div class="price-value">{{ totalPrice.toLocaleString() }} ₽</div>
+            <div style="font-size: 10px; color: var(--muted); margin-bottom: 5px;">ИТОГО</div>
+            <div class="price-value" id="priceDisplay">0 ₽</div>
         </div>
 
-        <button class="order-btn" @click="sendToWhatsApp">ОФОРМИТЬ ЗАКАЗ</button>
+        <div class="buttons-grid">
+            <a href="#" target="_blank" class="btn btn-wa" id="waLink">WhatsApp</a>
+            <a href="#" target="_blank" class="btn btn-tg" id="tgLink">Telegram</a>
+        </div>
     </div>
 
-    <script>const { createApp } = Vue
-    createApp({
-        data() {
-            return {
-                typeId: 'oval1',
-                currentLength: 250,
-                products: {
-                    oval1: { name: 'Овальный глушитель 1х1', baseP: 18100, minL: 250, maxL: 600, h: 60, r: 10 },
-                    oval2: { name: 'Овальный глушитель 2х2', baseP: 25400, minL: 250, maxL: 600, h: 60, r: 10 },
-                    round170: { name: 'Круглый глушитель D170', baseP: 11300, minL: 200, maxL: 550, h: 50, r: 25 },
-                    round100: { name: 'Круглый резонатор D100', baseP: 6300, minL: 200, maxL: 550, h: 30, r: 15 }
-                }
-            }
-        },
-        computed: {
-            selectedProduct() { return this.products[this.typeId]; },
-            totalPrice() {
-                const p = this.selectedProduct;
-                const extraSteps = (this.currentLength - p.minL) / 50;
-                return p.baseP + (extraSteps * 700);
-            },
-            visualStyle() {
-                return {
-                    width: (this.currentLength * 0.6) + 'px',
-                    height: this.selectedProduct.h + 'px',
-                    borderRadius: this.selectedProduct.r + 'px'
-                };
-            }
-        },
-        methods: {
-            resetLength() { this.currentLength = this.selectedProduct.minL; },
-            sendToWhatsApp() {
-                const phone = "79001234567"; // ЗАМЕНИТЕ НА ВАШ НОМЕР
-                const text = `Здравствуйте! Хочу заказать в beSS:\n— ${this.selectedProduct.name}\n— Длина: ${this.currentLength} мм\n— Цена: ${this.totalPrice} руб.`;
-                window.open(`https://wa.me{phone}?text=${encodeURIComponent(text)}`);
-            }
-        }
-    }).mount('#app')</script>
+    <script>
+        const products = {
+            oval1: { name: 'Овальный 1х1', baseP: 18100, minL: 250, maxL: 600, h: 60, r: 15 },
+            oval2: { name: 'Овальный 2х2', baseP: 25400, minL: 250, maxL: 600, h: 65, r: 15 },
+            round170: { name: 'Круглый D170', baseP: 11300, minL: 200, maxL: 550, h: 55, r: 30 },
+            round100: { name: 'Круглый D100 (Резонатор)', baseP: 6300, minL: 200, maxL: 550, h: 35, r: 20 }
+        };
 
+        const select = document.getElementById('productSelect');
+        const slider = document.getElementById('lengthSlider');
+        const label = document.getElementById('lengthLabel');
+        const priceDisplay = document.getElementById('priceDisplay');
+        const visual = document.getElementById('visualBody');
+
+        const myPhone = "79221714919";
+        const myTg = "be_solve_system";
+
+        for (let key in products) {
+            let opt = document.createElement('option');
+            opt.value = key;
+            opt.innerText = products[key].name;
+            select.appendChild(opt);
+        }
+
+        function resetAndStore() {
+            slider.value = products[select.value].minL;
+            update();
+        }
+
+        function update() {
+            const p = products[select.value];
+            slider.min = p.minL;
+            slider.max = p.maxL;
+
+            const val = parseInt(slider.value);
+            label.innerText = 'Длина корпуса: ' + val + ' мм';
+
+            const extraSteps = (val - p.minL) / 50;
+            const total = p.baseP + (extraSteps * 700);
+            const formattedPrice = total.toLocaleString() + ' ₽';
+            priceDisplay.innerText = formattedPrice;
+
+            visual.style.width = (val * 0.45) + 'px';
+            visual.style.height = p.h + 'px';
+            visual.style.borderRadius = p.r + 'px';
+
+            // Собираем данные
+            const name = document.getElementById('userName').value || "Не указано";
+            const phoneUser = document.getElementById('userPhone').value || "Не указан";
+
+            const msg = "ЗАКАЗ be Solve System:\n👤 Клиент: " + name + "\n📞 Тел: " + phoneUser + "\n🛠 Изделие: " + p.name + "\n📏 Длина: " + val + " мм\n💰 Цена: " + formattedPrice;
+            const encoded = encodeURIComponent(msg);
+
+            // Обновляем ссылки ПРЯМО В ТЕГАХ <a>
+            document.getElementById('waLink').href = "https://api.whatsapp.com" + myPhone + "&text=" + encoded;
+            document.getElementById('tgLink').href = "https://t.me/" + myTg + "?text=" + encoded;
+        }
+
+        update();
+    </script>
 </body>
 </html>
