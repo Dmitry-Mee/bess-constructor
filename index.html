@@ -91,28 +91,14 @@
             border: 1px inset rgba(255,255,255,0.05);
         }
 
-        .muffler-body {
-            background: linear-gradient(180deg, #444, #111, #222);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 0 40px var(--primary-glow);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 2;
-        }
-
-        .pipe {
+        .preview-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             position: absolute;
-            width: 50px;
-            height: 20px;
-            background: linear-gradient(180deg, #333, #000);
-            border-radius: 4px;
-        }
-
-        .pipe-in {
-            left: 0;
-        }
-
-        .pipe-out {
-            right: 0;
+            inset: 0;
+            z-index: 1;
+            opacity: 0.95;
         }
 
         /* Элементы управления */
@@ -229,9 +215,7 @@
         <div class="sub-title">Custom Exhaust Lab</div>
 
         <div class="preview-box">
-            <div class="pipe pipe-in"></div>
-            <div id="visualBody" class="muffler-body"></div>
-            <div class="pipe pipe-out"></div>
+            <img id="previewImage" class="preview-image" alt="Превью выбранной конфигурации глушителя">
         </div>
 
         <div class="control-group">
@@ -264,20 +248,67 @@
     </div>
 
     <script>
-        const products = {
-            round170: { name: 'Круглый D170', baseP: 11300, minL: 200, maxL: 550, stepP: 700, h: 65, r: 32 },
-            round100: { name: 'Резонатор D100', baseP: 6300, minL: 200, maxL: 550, stepP: 700, h: 40, r: 20 },
-            ovalCC: { name: 'Овальный C-C', baseP: 18100, minL: 250, maxL: 550, stepP: 700, h: 60, r: 15 },
-            ovalH: { name: 'Овальный H', baseP: 25400, minL: 250, maxL: 550, stepP: 800, h: 70, r: 15 },
-            ovalU: { name: 'Овальный U', baseP: 25700, minL: 250, maxL: 550, stepP: 800, h: 65, r: 15 },
-            ovalL: { name: 'Овальный L', baseP: 28300, minL: 250, maxL: 550, stepP: 700, h: 65, r: 15 }
-        };
+        const configurationNames = [
+            'Глушитель круглый',
+            'Круглый камерный',
+            'Глушитель овальный F',
+            'Глушитель овальный 2F',
+            'Глушитель овальный C-C',
+            'Овальный C-C (камерный)',
+            'Глушитель овальный L',
+            'Глушитель овальный 2L',
+            'Глушитель овальный 0-I',
+            'Овальный 0-I (камерный)',
+            'Глушитель овальный OFF-II cam',
+            'Глушитель овальный OFF-II 2 cam',
+            'Глушитель овальный I-I',
+            'Овальный I-I (камерный)',
+            'Глушитель овальный Т',
+            'Глушитель овальный Т 1-4',
+            'Глушитель овальный С-OFF',
+            'Овальный С-OFF (камерный)',
+            'Глушитель овальный h',
+            'Глушитель овальный OFF-OFF',
+            'Овальный OFF-OFF (камерный)',
+            'Глушитель овальный U',
+            'Овальный U (камерный)',
+            'Глушитель овальный 2U',
+            'Глушитель овальный Y',
+            'Овальный Y (камерный)',
+            'Глушитель овальный X'
+        ];
+
+        const products = Object.fromEntries(
+            configurationNames.map((name, index) => {
+                const isRound = name.includes('круглый') || name.includes('Круглый');
+                return [
+                    `cfg${index + 1}`,
+                    {
+                        name,
+                        image: name,
+                        baseP: isRound ? 11300 : 18100,
+                        minL: isRound ? 200 : 250,
+                        maxL: 550,
+                        stepP: 700
+                    }
+                ];
+            })
+        );
 
         const select = document.getElementById('productSelect');
         const slider = document.getElementById('lengthSlider');
         const label = document.getElementById('lengthLabel');
         const priceDisplay = document.getElementById('priceDisplay');
-        const visual = document.getElementById('visualBody');
+        const previewImage = document.getElementById('previewImage');
+
+        const CONFIG_IMAGES_DIR = './images/configurations';
+        const DEFAULT_CONFIG_IMAGE = 'Глушитель овальный F.png';
+        const fallbackPreview = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
+            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 280'><rect width='900' height='280' fill='#111'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#bbb' font-size='34' font-family='Arial,sans-serif'>Изображение не найдено</text></svg>"
+        );
+        previewImage.onerror = () => {
+            previewImage.src = fallbackPreview;
+        };
 
         for (let key in products) {
             let opt = document.createElement('option');
@@ -302,9 +333,9 @@
             const total = p.baseP + (extraSteps * p.stepP);
 
             priceDisplay.innerText = total.toLocaleString() + ' ₽';
-            visual.style.width = (val * 0.4) + 'px';
-            visual.style.height = p.h + 'px';
-            visual.style.borderRadius = p.r + 'px';
+            const imageName = p.image ? `${p.image}.png` : DEFAULT_CONFIG_IMAGE;
+            previewImage.src = `${CONFIG_IMAGES_DIR}/${encodeURIComponent(imageName)}`;
+            previewImage.alt = `Конфигурация: ${p.name}`;
         }
 
         resetSlider();
